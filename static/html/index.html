@@ -13,7 +13,7 @@
   <div class="container-lg">
     <div class="mb-3">
       <div>
-        <span style="font-size: 2em; font-weight: bold;">Amazon Translate</span>
+        <span style="font-size: 2em; font-weight: bold;">Translator</span>
       </div>
     </div>
     <div id="app">
@@ -22,20 +22,17 @@
           <div class="mb-3">
             <select v-model="srcLang" v-on:change="translate" class="form-select">
               <option value="auto">自動</option>
-              <option v-for="(value, key, i) in lang" v-bind:value="value.code">{{value.name}}</option>
+              <option v-for="(e, i) in lang" v-bind:value="e.code">{{e.name}}</option>
             </select>
           </div>
           <div class="mb-3">
             <textarea v-model="srcText" v-on:input="translate" class="form-control" rows="20" placeholder="テキストを入力してください"></textarea>
           </div>
-          <!--
-          <button v-on:click.prevent="search">検索</button>
-          -->
         </div>
         <div class="col-sm">
           <div class="mb-3">
             <select v-model="dstLang" v-on:change="translate" class="form-select">
-              <option v-for="(value, key, i) in lang" v-bind:value="value.code">{{value.name}}</option>
+              <option v-for="(e, i) in lang" v-bind:value="e.code">{{e.name}}</option>
             </select>
           </div>
           <div class="mb-3">
@@ -51,15 +48,15 @@
     Vue.createApp({
       data() {
         return {
-          lang: {
-            "ja"   : {code: "ja"   , name: "日本語"},
-            "en"   : {code: "en"   , name: "英語"},
-            "fr"   : {code: "fr"   , name: "フランス語"},
-            "de"   : {code: "de"   , name: "ドイツ語"},
-            "ko"   : {code: "ko"   , name: "韓国語"},
-            "zh"   : {code: "zh"   , name: "簡体字中国語"},
-            "zh-TW": {code: "zh-TW", name: "繁体字中国語"}
-          },
+          lang: [
+            {code: "ja"   , name: "日本語"},
+            {code: "en"   , name: "英語"},
+            {code: "fr"   , name: "フランス語"},
+            {code: "de"   , name: "ドイツ語"},
+            {code: "ko"   , name: "韓国語"},
+            {code: "zh"   , name: "簡体字中国語"},
+            {code: "zh-TW", name: "繁体字中国語"}
+          ],
           srcLang: "auto",
           dstLang: "ja",
           srcText: "",

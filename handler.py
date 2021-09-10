@@ -24,7 +24,10 @@ def translate(event, context):
     if ("text" not in req_body):
         return {
             "statusCode": 200,
-            "headers": { "content-type": "application/json" },
+            "headers": {
+                "content-type": "application/json",
+                'Access-Control-Allow-Origin': '*'
+            },
             "body": json.dumps(response_body)
         }
 
@@ -39,7 +42,10 @@ def translate(event, context):
     response_body["result"]["dst_lang"] = result["TargetLanguageCode"]
     response = {
         "statusCode": 200,
-        "headers": { "content-type": "application/json" },
+        "headers": {
+            "content-type": "application/json",
+            'Access-Control-Allow-Origin': '*'
+        },
         "body": json.dumps(response_body)
     }
     return response

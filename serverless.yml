@@ -73,6 +73,7 @@ functions:
       - http:
           path: /translate
           method: post
+          cors: true
   static: # https://docs.oracle.com/ja-jp/iaas/Content/APIGateway/Tasks/apigatewayaddingparamswildcards.html
     handler: handler.static
     role: BaseRole

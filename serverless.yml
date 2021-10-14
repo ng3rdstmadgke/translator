@@ -66,21 +66,21 @@ package:
 #    - include-me-dir/**
 
 functions:
-  translate:
-    handler: handler.translate
-    role: TranslateRole
-    events:
-      - http:
-          path: /translate
-          method: post
-          cors: true
   static: # https://docs.oracle.com/ja-jp/iaas/Content/APIGateway/Tasks/apigatewayaddingparamswildcards.html
     handler: handler.static
-    role: BaseRole
+    role: LambdaStaticRole
     events:
       - http:
-          path: "/static/{any+}"
+          path: "/{any*}"
           method: get
+  api:
+    handler: handler.translate
+    role: LambdaApiRole
+    events:
+      - http:
+          path: "/api/{any+}"
+          method: post
+          cors: true
 
 
 #    The following are a few example events you can configure
@@ -126,10 +126,10 @@ functions:
 
 resources:
   Resources:
-    BaseRole:
+    LambdaStaticRole:
       Type: AWS::IAM::Role
       Properties:
-        RoleName: sls-sample-role-lambda-base
+        RoleName: translator-lambdaStaticRole
         ManagedPolicyArns:
           - arn:aws:iam::aws:policy/service-role/AWSLambdaBasicExecutionRole
         AssumeRolePolicyDocument:
@@ -141,10 +141,10 @@ resources:
               Principal:
                 Service:
                   - lambda.amazonaws.com
-    TranslateRole:
+    LambdaApiRole:
       Type: AWS::IAM::Role
       Properties:
-        RoleName: sls-sample-role-lambda-translate
+        RoleName: translator-lambdaApiRole
         ManagedPolicyArns:
           - arn:aws:iam::aws:policy/service-role/AWSLambdaBasicExecutionRole
           - arn:aws:iam::aws:policy/service-role/AWSLambdaDynamoDBExecutionRole
@@ -175,7 +175,7 @@ resources:
 
 plugins:
   - serverless-python-requirements
-
+  - serverless-offline
 custom:
   pythonRequirements:
     dockerizePip: true

@@ -61,12 +61,23 @@
           dstLang: "ja",
           srcText: "",
           dstText: "",
+          stage: (
+            () => {
+              let match = location.pathname.match(/^\/([^\/]*)/)
+              if (!match[1]) {
+                return "dev";
+              } else {
+                return match[1];
+              }
+            }
+          )(),
         }
       },
       methods: {
         translate(e) {
+          console.log("stage: ", this.stage);
           let that = this;
-          let url = "/dev/translate"
+          let url = "/dev/api/translate"
           //console.log(url)
           console.log(this.srcText)
           axios.post(url, {

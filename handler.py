@@ -2,6 +2,13 @@ import json
 import boto3
 import os
 
+def api(event, context):
+    path = os.path.abspath(event["path"])
+    if path == "/api/translate":
+        return translate()
+    else:
+        return { "statusCode": 404 }
+
 def translate(event, context):
     b = event["body"]
     req_body = json.loads(b)
@@ -51,9 +58,7 @@ def translate(event, context):
     return response
 
 def static(event, context):
-    path = "." + os.path.abspath(event["path"])
-    if (not path.startswith("./static")):
-        return { "statusCode": 404 }
+    path = "./static" + os.path.abspath(event["path"])
     if (os.path.isdir(path)):
         path = os.path.join(path, "index.html")
     if (not os.path.isfile(path)):
